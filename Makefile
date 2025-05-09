@@ -143,7 +143,7 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
 
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 
-.PHONY: all $(BUILD) fwpack clean
+.PHONY: all $(BUILD) clean
 all: $(BUILD)
 
 #---------------------------------------------------------------------------------
@@ -151,10 +151,6 @@ $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
 	for dir in $(SOURCES); do mkdir -p $(BUILD)/$$dir; done
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
-
-fwpack:
-	@echo making fwpack...
-	@gcc ./tools/fwpack.c -o ./tools/fwpack
 
 #---------------------------------------------------------------------------------
 clean:
@@ -170,7 +166,6 @@ DEPENDS	:=	$(OFILES:.o=.d)
 #---------------------------------------------------------------------------------
 # main targets
 #---------------------------------------------------------------------------------
-#$(OUTPUT).fw	:	$(OUTPUT).bin
 $(OUTPUT).bin	: 	$(OUTPUT).elf
 $(OUTPUT).elf	:	$(OFILES)
 
@@ -185,12 +180,6 @@ $(OUTPUT).elf	:	$(OFILES)
 %.bin : %.elf
 	$(SILENTMSG) making $(notdir $@)
 	$(SILENTCMD)$(OBJCOPY) $< -O binary $@
-
-#---------------------------------------------------------------------------------
-%.fw : %.bin
-	$(SILENTMSG) packing $(notdir $@)
-	$(SILENTCMD)$(FWPACK) LVC_=$< WIFI=../wlfirmware.bin WNVR=../wlnvram.bin $@
-	#$(SILENTCMD)$(FWPACK) LVC_=$< WIFI=../wlfirmware3.bin WNVR=../wlnvram.bin $@
 
 -include $(DEPENDS)
 
