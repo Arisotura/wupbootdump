@@ -56,5 +56,6 @@ print("waiting for incoming data...")
 
 fout.write(ser.read(0x1000))
 fout.close()
+ser.close()
 
 print("done!")
