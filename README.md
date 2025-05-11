@@ -66,7 +66,7 @@ The boot ROM's SHA256 hash should be `1ba084d39f36f3fa2d8d4b671e762e08d8893651f9
 
 (let me know if you get a different hash!)
 
-### Build instructions ###
+## Build instructions ##
 
 You need the following packages:
 
@@ -74,3 +74,19 @@ You need the following packages:
  * arm-none-eabi-binutils-cs
 
 You should be able to just type `make` to build the dumper.
+
+## Dumping the DRH boot ROM ##
+
+With minor modifications, this dumper can also be used to dump the DRH boot ROM from a Wii U.
+
+Here is an adequate binary: https://kuribo64.net/get.php?id=IilzIechMTu4xMrI
+
+Base UART clock is adjusted, and UIC-related code is removed.
+
+The test points on the Wii U motherboard are as follows:
+
+ * TP40: TXD
+ * TP179: RXD
+ * TP178: UART boot
+
+This is provided for the sake of completeness. DRH uses the same boot ROM as the Gamepad's DRC.
